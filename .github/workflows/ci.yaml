@@ -133,19 +133,13 @@ jobs:
           PORT=5432
           EOL
           EOF
-      - name: Apply migrations
+      - name: Install and start Docker compose
         run: |
           ssh -T -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << "EOF"
-          cd "\home"
-          PGPASSWORD='***' psql -h localhost -U *** -d database_name -c "SELECT 1;" || exit 1
-          ~/.local/bin/poetry run python manage.py migrate --no-input
-          EOF
-      - name: Start Django application
-        run: |
-          # Старт проекта
-          ssh -T -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << "EOF"
-          cd "\home"
-          pkill -f "gunicorn config.wsgi:application" || true
-          nohup ~/.local/bin/poetry run gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 2 > app.log 2>&1 &
+          cd "${{ secrets.DEPLOY_DIR }}"
+          sudo docker compose down -v || true
+          sudo docker compose up -d --build
           echo "Application started in background"
           EOF
+    
+      
