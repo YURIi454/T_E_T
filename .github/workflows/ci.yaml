@@ -116,6 +116,8 @@ jobs:
             sudo systemctl start postgresql
           else
             echo "PostgreSQL is already running."
+          fi
+          exit
          
           EOF
       - name: Create .env file on server
