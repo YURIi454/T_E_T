@@ -89,8 +89,8 @@ jobs:
           fi
           cd "\$DEPLOY_DIR"
           git fetch origin
-          git checkout "origin/develop/C_W_F"
-          git reset --hard "origin/develop/C_W_F"
+          git checkout "origin/C_W_F"
+          git reset --hard "origin/C_W_F"
           EOF
       - name: Install dependencies on server
         run: |
