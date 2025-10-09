@@ -69,7 +69,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: test
-    if: github.ref == 'refs/heads/feature/35.2-CI/CD_and_GitHub_Actions'
+    if: github.ref == 'refs/heads/develop/C_W_F'
     env:
       SSH_PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}
       SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
