@@ -14,8 +14,8 @@ services:
     env_file:
       - .env
     environment:
-      DATABASE_HOST: db
-      REDIS_HOST: redis
+      HOST: db
+      REDIS_LOCATION: redis
     volumes:
       - .:/app
     depends_on:
@@ -28,9 +28,9 @@ services:
     env_file:
       - .env
     environment:
-      NAME: ${DATABASE_NAME}
-      USER: ${DATABASE_USER}
-      PASSWORD: ${DATABASE_PASSWORD}
+      NAME: ${NAME}
+      USER: ${USER}
+      PASSWORD: ${PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -67,8 +67,8 @@ services:
     env_file:
       - .env
     environment:
-      DATABASE_HOST: db
-      REDIS_HOST: redis
+      HOST: db
+      REDIS_LOCATION: redis
     volumes:
       - .:/app
     depends_on:
