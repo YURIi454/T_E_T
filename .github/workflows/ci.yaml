@@ -27,7 +27,7 @@ jobs:
         image: postgres:16
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: 2222
+          POSTGRES_PASSWORD: qwerty123456
           POSTGRES_DB: T_E_T
         ports:
           - 5432:5432
@@ -58,7 +58,7 @@ jobs:
         run: poetry run python manage.py makemigrations
       - name: Run tests
         env:
-          SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
           DATABASE_NAME: T_E_T
           DATABASE_USER: postgres
           DATABASE_PASSWORD: qwerty123456
