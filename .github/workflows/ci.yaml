@@ -82,12 +82,12 @@ jobs:
       - name: Copy project files to server
         run: |
           ssh -T -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << "EOF"
-          DEPLOY_DIR="\$home"
-          if [ ! -d "\$DEPLOY_DIR/.git" ]; then
+          DEPLOY_DIR="\home"
+          if [ ! -d "\home/.git" ]; then
             echo "Cloning repository into \$DEPLOY_DIR..."
-            git clone "https://github.com/YURIi454/T_E_T.git" "\$home"
+            git clone "https://github.com/YURIi454/T_E_T.git" "\home"
           fi
-          cd "\$home"
+          cd "\home"
           git fetch origin
           git checkout "origin/C_W_F"
           git reset --hard "origin/C_W_F"
@@ -95,7 +95,7 @@ jobs:
       - name: Install dependencies on server
         run: |
           ssh -T -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << "EOF"
-          cd "\$home"
+          cd "\home"
           curl -sSL https://install.python-poetry.org | python3 -
           ~/.local/bin/poetry install --no-root
           EOF
@@ -126,7 +126,7 @@ jobs:
       - name: Create .env file on server
         run: |
           ssh -T -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << "EOF"
-          cd "\$home"
+          cd "\home"
           cat > .env <<EOL
           SECRET_KEY=${{ secrets.SECRET_KEY }}
           NAME=${{ secrets.POSTGRES_NAME }}
@@ -139,7 +139,7 @@ jobs:
       - name: Apply migrations
         run: |
           ssh -T -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << "EOF"
-          cd "\$home"
+          cd "\home"
           PGPASSWORD='${{ secrets.POSTGRES_PASSWORD }}' psql -h localhost -U ${{ secrets.POSTGRES_USER }} -d ${{ secrets.POSTGRES_NAME }} -c "SELECT 1;" || exit 1
           ~/.local/bin/poetry run python manage.py migrate --no-input
           EOF
@@ -147,7 +147,7 @@ jobs:
         run: |
           # Старт проекта
           ssh -T -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << "EOF"
-          cd "\$home"
+          cd "\home"
           pkill -f "gunicorn config.wsgi:application" || true
           nohup ~/.local/bin/poetry run gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 2 > app.log 2>&1 &
           echo "Application started in background"
