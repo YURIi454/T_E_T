@@ -28,9 +28,9 @@ services:
     env_file:
       - .env
     environment:
-      POSTGRES_DB: ${DATABASE_NAME}
-      POSTGRES_USER: ${DATABASE_USER}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      NAME: ${DATABASE_NAME}
+      USER: ${DATABASE_USER}
+      PASSWORD: ${DATABASE_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
