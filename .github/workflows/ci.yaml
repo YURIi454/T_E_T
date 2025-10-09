@@ -137,7 +137,7 @@ jobs:
         run: |
           ssh -T -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << "EOF"
           cd "\home"
-          PGPASSWORD='${{ secrets.POSTGRES_PASSWORD }}' psql -h localhost -U ${{ secrets.POSTGRES_USER }} -d ${{ secrets.POSTGRES_NAME }} -c "SELECT 1;" || exit 1
+          PGPASSWORD='***' psql -h localhost -U *** -d database_name -c "SELECT 1;" || exit 1
           ~/.local/bin/poetry run python manage.py migrate --no-input
           EOF
       - name: Start Django application
